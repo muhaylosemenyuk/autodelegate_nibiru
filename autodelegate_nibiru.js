@@ -79,5 +79,3 @@ function getTimeout(rewards, sleepTimeout) {
         next = true
     }
 })();
-
-EOF

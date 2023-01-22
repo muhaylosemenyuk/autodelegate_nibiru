@@ -2,10 +2,12 @@
 
 ### Install screen
     apt-get install screen
+    
     curl -s https://raw.githubusercontent.com/muhaylosemenyuk/autodelegate_nibiru/main/prepare-nodejs.sh | bash
+    
     npm install shelljs --cli
 ### Download script
-    curl -s https://raw.githubusercontent.com/muhaylosemenyuk/cosmos/main/autodelegate_nibiru.js > autodelegate_nibiru.js
+    cd && wget -O autodelegate_nibiru.js https://raw.githubusercontent.com/muhaylosemenyuk/autodelegate_nibiru/main/autodelegate_nibiru.js
 ### Edit the file
     nano ~/autodelegate_nibiru.js
 
@@ -21,7 +23,7 @@
 
     const CHAIN_ID = 'nibiru-testnet-2'
     const WALLETNAME = 'wallet'
-    const FEES = '5000'
+    const FEES = '8500'
     const DENOM = 'unibi'
     const PROJECT = 'nibid'
     var sleepTimeout = 300

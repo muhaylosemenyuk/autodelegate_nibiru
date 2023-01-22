@@ -86,7 +86,7 @@ function getTimeout(rewards, sleepTimeout) {
         
         
         if (next) {
-          const rewards = balance - startBalance + 10000 + balance2 - startBalance2 + 17500;
+          const rewards = balance - startBalance + (+FEES * 2) + balance2 - startBalance2 + +FEES + 12500;
           sleepTimeout = getTimeout(rewards, sleepTimeout);
           startStake = startStake + rewards - 10000;   
         }

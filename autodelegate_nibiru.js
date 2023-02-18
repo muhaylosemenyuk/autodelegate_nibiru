@@ -47,7 +47,7 @@ function getTimeout(rewards, sleepTimeout) {
 (async function() {
     while (true) {
         // Зібрати реварди
-        const startBalance = Number.parseInt(getBalance(DELEGATOR)) - 5000000;
+        const startBalance = Number.parseInt(getBalance(DELEGATOR)) - +FEES * 100;
         const cmdGetReward = `echo -e "${PASSWORD}\\ny\\n" | ${PROJECT} tx distribution withdraw-rewards ${VALOPER} --chain-id ${CHAIN_ID} --from ${WALLETNAME} --commission --fees ${FEES}${DENOM} -y`
         console.log('Reward');
         console.log(cmdGetReward);
@@ -58,7 +58,7 @@ function getTimeout(rewards, sleepTimeout) {
 
         // Зібрати з додаткового гаманця
         await sleep(1000 * 6);
-        const startBalance2 = Number.parseInt(getBalance(DELEGATOR2)) - 5000000;
+        const startBalance2 = Number.parseInt(getBalance(DELEGATOR2)) - +FEES * 100;
         const cmdGetAllReward = `echo -e "${PASSWORD}\\n${PASSWORD}\\n" | ${PROJECT} tx distribution withdraw-all-rewards --from ${DELEGATOR2} --chain-id ${CHAIN_ID} --fees 12500${DENOM} --gas=500000 -y`;
         await sleep(1000 * 6);
         console.log('All reward');
@@ -69,7 +69,7 @@ function getTimeout(rewards, sleepTimeout) {
         
         // Заделегувати з основного
         await sleep(1000 * 6);
-        const balance = Number.parseInt(getBalance(DELEGATOR)) - 5000000;
+        const balance = Number.parseInt(getBalance(DELEGATOR)) - +FEES * 100;
         const cmdStakeAll = `echo -e "${PASSWORD}\\n${PASSWORD}\\n" | ${PROJECT} tx staking delegate ${VALOPER} ${balance}${DENOM} --from ${DELEGATOR} --chain-id ${CHAIN_ID} --fees ${FEES}${DENOM} -y`;
         console.log('Stake all');
         const stakeAll = shell.exec(cmdStakeAll, {shell: '/bin/bash', silent: true});
@@ -77,7 +77,7 @@ function getTimeout(rewards, sleepTimeout) {
         
         //Заделегувати з додаткового
         await sleep(1000 * 6);
-        const balance2 = Number.parseInt(getBalance(DELEGATOR2)) - 5000000;
+        const balance2 = Number.parseInt(getBalance(DELEGATOR2)) - +FEES * 100;
         const cmdStakeAll2 = `echo -e "${PASSWORD}\\n${PASSWORD}\\n" | ${PROJECT} tx staking delegate ${VALOPER} ${balance2}${DENOM} --from ${DELEGATOR2} --chain-id ${CHAIN_ID} --fees ${FEES}${DENOM} -y`;
         console.log('Stake all2');
         const stakeAll2 = shell.exec(cmdStakeAll2, {shell: '/bin/bash', silent: true});
@@ -86,9 +86,9 @@ function getTimeout(rewards, sleepTimeout) {
         
         
         if (next) {
-          const rewards = balance - startBalance + (+FEES * 2) + balance2 - startBalance2 + +FEES + 12500;
+          const rewards = balance - startBalance + balance2 - startBalance2 - +FEES * 2;
           sleepTimeout = getTimeout(rewards, sleepTimeout);
-          startStake = startStake + rewards - 10000;   
+          startStake = startStake + rewards;   
         }
         
         console.log('sleepTimeout', sleepTimeout)

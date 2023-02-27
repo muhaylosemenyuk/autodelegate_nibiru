@@ -12,7 +12,7 @@ const DELEGATOR = 'nibiru_wallet_address'
 // Enter your wallet2 address
 const DELEGATOR2 = 'nibiru_wallet2_address'
 
-const CHAIN_ID = 'nibiru-testnet-2'
+const CHAIN_ID = 'nibiru-itn-1'
 const WALLETNAME = 'wallet'
 const FEES = '8500'
 const DENOM = 'unibi'

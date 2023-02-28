@@ -40,6 +40,8 @@ function getTimeout(rewards, sleepTimeout) {
     const reward_per_sec = rewards / sleepTimeout;
     const procent = reward_per_sec / startStake;
     const time = Math.sqrt((+FEES * 3 + 12500) / (reward_per_sec * procent));
+    time = time > 60 ? time : 60;
+    time = time === Infinity ? 60 : time;
     console.log('time', sleepTimeout, 'rewards', rewards);
     return time;
 }
@@ -84,20 +86,12 @@ function getTimeout(rewards, sleepTimeout) {
         console.log(stakeAll2.stdout + stakeAll2.stderr);
         console.log(cmdStakeAll2);
         
-        
-        if (next) {
-          const rewards = balance - startBalance + balance2 - startBalance2 - +FEES * 2;
-          sleepTimeout = getTimeout(rewards, sleepTimeout);
-          startStake = startStake + rewards;   
-        }
+        const rewards = balance - startBalance + balance2 - startBalance2 - +FEES * 2;
+        sleepTimeout = getTimeout(rewards, sleepTimeout);
+        startStake = startStake + rewards;
         
         console.log('sleepTimeout', sleepTimeout)
         await sleep(1000 * sleepTimeout);
-        next = false
-        
-        if (sleepTimeout >= 60) {
-          next = true
-        }
         
     }
 })();
